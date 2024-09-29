@@ -22,7 +22,10 @@ void	check_10pec(t_map *game)
 		while (game->map[i][j])
 		{
 			if (game->map[i][j] != '1' && game->map[i][j] != '0' && game->map[i][j] != 'P' && game->map[i][j] != 'E' && game->map[i][j] != 'C')
+			{
+				ft_printf("Verification caractere a la position [%d, %d] : '%c' (ASCII: %d)\n", i, j, game->map[i][j], game->map[i][j]);
 				error(game,"The map must only contain the characters 1, 0, P, E, and C");
+			}
 			j++;
 		}
 		i++;
@@ -49,6 +52,7 @@ void check_pec(t_map *game)
         }
         i++;
     }
+	//ft_printf("Joueurs: %d, Issues: %d, Collectibles: %d\n", game->player, game->exit, game->collect);
 	if (game->player != 1)
 		error(game,"You must have precisely one player");
 	if (game->exit != 1)

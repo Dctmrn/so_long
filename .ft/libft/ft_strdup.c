@@ -3,26 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marida-c <marida-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrn <mrn@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:56:29 by marida-c          #+#    #+#             */
-/*   Updated: 2023/11/13 14:23:53 by marida-c         ###   ########.fr       */
+/*   Updated: 2024/09/29 06:32:58 by mrn              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+char *ft_strdup(const char *s)
 {
-	char	*dst;
-	size_t	i;
+    size_t len = ft_strlen(s);
+    char *copy = malloc(len + 1); // +1 pour le caractère de fin '\0'
+	if (!copy)
+        return NULL; // Si malloc échoue, retournez NULL
 
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	dst = (char *)malloc(i + 1 * sizeof(char));
-	if (dst == NULL)
-		return (NULL);
-	ft_strlcpy(dst, s, i + 1);
-	return (dst);
+    ft_strlcpy(copy, s, len +1); // Copiez la chaîne
+    return copy;
 }
+
