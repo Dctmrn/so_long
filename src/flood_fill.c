@@ -2,9 +2,10 @@
 
 void flood_fill(t_map *game, int x, int y)
 {
+    //printf("flood fill...\n");
 	if (x < 0 || y < 0 || x >= game->width || y >= game->height)
 		return ;
-	if (game->map[y][x] == '1')
+	if (game->map[y][x] == '1' || game->map[y][x] == 'V')
 		return;
 	if (game->map[y][x] == 'C')
 		game->flood_collect++;
@@ -29,11 +30,12 @@ void flood_check_ec(t_map *game)
 	if (game->flood_player == 0)
 		error(game, "Player is not reachable");
 
-	ft_printf("All collectibles, exit, and player are reachable!\n");
+	//ft_printf("All collectibles, exit, and player are reachable!\n");
 }
 
 void restore_map(t_map *game)
 {
+   //printf("restoring map...\n");
     int i;
     int j;
 
@@ -55,7 +57,7 @@ void start_flood_fill(t_map *game)
 {
     int i, j;
     int found_player = 0;
-
+    //printf("starting flood fill...\n");
     i = 0;
     while (i < game->height && !found_player)
     {

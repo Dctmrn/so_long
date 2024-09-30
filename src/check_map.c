@@ -21,6 +21,7 @@ void	check_10pec(t_map *game)
 		j = 0;
 		while (game->map[i][j])
 		{
+			//printf("Verification caractere a la position [%d, %d] : '%c' (ASCII: %d)\n", i, j, game->map[i][j], game->map[i][j]);
 			if (game->map[i][j] != '1' && game->map[i][j] != '0' && game->map[i][j] != 'P' && game->map[i][j] != 'E' && game->map[i][j] != 'C')
 			{
 				ft_printf("Verification caractere a la position [%d, %d] : '%c' (ASCII: %d)\n", i, j, game->map[i][j], game->map[i][j]);
@@ -38,10 +39,14 @@ void check_pec(t_map *game)
     int j;
 
     i = 0;
+	// for (int k = 0; game->map[k] != NULL; k++) 
+	// 	printf("Ligne [%d]: %s\n", k, game->map[k]);
+	
     while (game->map[i])
     {
-        j = -1;
-        while (game->map[i][++j])
+	
+        j = 0;
+        while (game->map[i][j])
         {
             if (game->map[i][j] == 'P')
                 game->player++;
@@ -49,10 +54,11 @@ void check_pec(t_map *game)
                 game->exit++;
             else if (game->map[i][j] == 'C')
                 game->collect++;
+			j++;
         }
         i++;
     }
-	ft_printf("Joueurs: %d, Issues: %d, Collectibles: %d\n", game->player, game->exit, game->collect);
+	//ft_printf("Joueurs: %d, Issues: %d, Collectibles: %d\n", game->player, game->exit, game->collect);
 	if (game->player != 1)
 		error(game,"You must have precisely one player");
 	if (game->exit != 1)
@@ -63,12 +69,17 @@ void check_pec(t_map *game)
 
 void check_height_width(t_map *game)
 {
+	//if (!game || !game->map)
+    	//error(game, "Map is not initialized");
+
 	int i;
 	int j;
+	//printf("Checking map dimensions...\n");
 
 	i = 0;
 	while (game->map[i])
 	{
+		//printf("Vérification de la ligne [%d]: %s\n", i, game->map[i]);
 		j = 0;
 		while (game->map[i][j])
 			j++;
@@ -85,7 +96,7 @@ void check_map_border(t_map *game)
 {
 	int i;
 	int j;
-
+	//printf("Checking map borders...\n");
 	i = 0;
 	while (game->map[i])
 	{

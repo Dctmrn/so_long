@@ -22,9 +22,8 @@ int init_map(t_map *game, char *file)
     while ((line = get_next_line(fd)) != NULL)
     {
         empty_line(game, line);
-        //if (line[ft_strlen(line) + 1] == '\n') 
-          //  line[ft_strlen(line) + 1] = '\0'; // Remplace le saut de ligne par '\0'
-
+        if (line && line[0] != '\0' && line[strlen(line) - 1] == '\n') 
+            line[strlen(line) - 1] = '\0';
 
         char **new_map = (char **)ft_realloc(game->map, sizeof(char *) * (i + 1), sizeof(char *) * (i + 2));
         if (!new_map)
@@ -42,10 +41,11 @@ int init_map(t_map *game, char *file)
             error(game, "Memory allocation for map line failed");
         }
 
-        game->map[i] = NULL;
+        
         free(line);
         i++;
     }
+    game->map[i] = NULL;
     //for (int k = 0; game->map[k]; k++) 
        // printf("Ligne [%d]: %s\n", k, game->map[k]);
 
