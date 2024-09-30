@@ -52,7 +52,7 @@ void check_pec(t_map *game)
         }
         i++;
     }
-	//ft_printf("Joueurs: %d, Issues: %d, Collectibles: %d\n", game->player, game->exit, game->collect);
+	ft_printf("Joueurs: %d, Issues: %d, Collectibles: %d\n", game->player, game->exit, game->collect);
 	if (game->player != 1)
 		error(game,"You must have precisely one player");
 	if (game->exit != 1)

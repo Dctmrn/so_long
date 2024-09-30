@@ -42,12 +42,12 @@ int init_map(t_map *game, char *file)
             error(game, "Memory allocation for map line failed");
         }
 
-      
+        game->map[i] = NULL;
         free(line);
         i++;
     }
-    for (int k = 0; game->map[k]; k++) 
-        printf("Ligne [%d]: %s\n", k, game->map[k]);
+    //for (int k = 0; game->map[k]; k++) 
+       // printf("Ligne [%d]: %s\n", k, game->map[k]);
 
     close(fd);
     return 1;
