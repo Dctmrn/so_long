@@ -1,12 +1,13 @@
 #include "../so_long.h"
 
-void	check_file_extension(t_map *game, char *file)
+void	check_file(t_map *game, char *file)
 {
 	int	len;
 
 	len = ft_strlen(file);
 	if (len < 4 || !ft_strnstr(file + len - 4, ".ber", 4))
 		error(game, "Invalid map file extension (it must be .ber)");
+	check_10pec(game);
 }
 
 void	check_10pec(t_map *game)
@@ -32,6 +33,7 @@ void	check_10pec(t_map *game)
 		}
 		i++;
 	}
+	check_pec(game);
 }
 
 void	check_pec(t_map *game)
@@ -43,7 +45,7 @@ void	check_pec(t_map *game)
 	while (game->map[i])
 	{
 		j = 0;
-		while (game->map[i][j])
+		while (game->map[i][j++])
 		{
 			if (game->map[i][j] == 'P')
 				game->player++;
@@ -51,7 +53,6 @@ void	check_pec(t_map *game)
 				game->exit++;
 			else if (game->map[i][j] == 'C')
 				game->collect++;
-			j++;
 		}
 		i++;
 	}
@@ -61,6 +62,7 @@ void	check_pec(t_map *game)
 		error(game, "You must have precisely one exit");
 	if (game->collect < 1)
 		error(game, "You must include at least one collectible");
+	check_height_width(game);
 }
 
 void	check_height_width(t_map *game)
@@ -81,6 +83,7 @@ void	check_height_width(t_map *game)
 		i++;
 	}
 	game->height = i;
+	check_map_border(game);
 }
 
 void	check_map_border(t_map *game)

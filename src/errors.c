@@ -1,12 +1,11 @@
 #include "../so_long.h"
 
-void free_map(t_map *game)
+void	free_map(t_map *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (game->map[i])
-
 	{
 		free(game->map[i]);
 		game->map[i] = NULL;
@@ -44,7 +43,6 @@ void	free_mlx_img(t_img *img)
 	}
 }
 
-
 int	close_game(t_map *game)
 {
 	if (game->img.mlx_ptr != NULL)
@@ -55,6 +53,7 @@ int	close_game(t_map *game)
 	free_map(game);
 	return (0);
 }
+
 void	close_display(t_map *game)
 {
 	mlx_destroy_display(game->img.mlx_ptr);
@@ -63,10 +62,9 @@ void	close_display(t_map *game)
 	exit(0);
 }
 
-void error(t_map *game, const char *message)
+void	error(t_map *game, const char *message)
 {
 	ft_printf(RED "Error: %s\n"RESET, message);
-	//free_map(game);
 	free_mlx_img(&game->img);
 	close_game(game);
 	exit(EXIT_FAILURE);

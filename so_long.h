@@ -52,8 +52,7 @@ typedef struct s_map
 int		init_map(t_map *game, char *file);
 void	empty_line(t_map *game, char *line);
 
-void	check_map(t_map *game, char *file);
-void	check_file_extension(t_map *game, char *file);
+void	check_file(t_map *game, char *file);
 void	check_10pec(t_map *game);
 void	check_pec(t_map *game);
 void	check_height_width(t_map *game);
