@@ -1,6 +1,6 @@
 #include "../so_long.h"
 
-void move_player(t_map *game, int new_x, int new_y)
+void	move_player(t_map *game, int new_x, int new_y)
 {
 	if (game->map[new_y][new_x] == '0' || game->map[new_y][new_x] == 'C')
 	{
@@ -26,8 +26,8 @@ void move_player(t_map *game, int new_x, int new_y)
 
 int	key_hook(int keycode, t_map *game)
 {
-	int new_x;
-	int new_y;
+	int	new_x;
+	int	new_y;
 
 	new_x = game->player_x;
 	new_y = game->player_y;

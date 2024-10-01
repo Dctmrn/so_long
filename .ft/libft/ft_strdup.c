@@ -6,20 +6,21 @@
 /*   By: mrn <mrn@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:56:29 by marida-c          #+#    #+#             */
-/*   Updated: 2024/09/29 06:32:58 by mrn              ###   ########.fr       */
+/*   Updated: 2024/10/01 08:38:30 by mrn              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
-    size_t len = ft_strlen(s);
-    char *copy = malloc(len + 1); // +1 pour le caractère de fin '\0'
+	size_t	len;
+	char	*copy;
+
+	len = ft_strlen(s);
+	copy = malloc(len + 1);
 	if (!copy)
-        return NULL; // Si malloc échoue, retournez NULL
-
-    ft_strlcpy(copy, s, len +1); // Copiez la chaîne
-    return copy;
+		return (NULL);
+	ft_strlcpy(copy, s, len +1);
+	return (copy);
 }
-
