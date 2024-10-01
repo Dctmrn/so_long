@@ -10,14 +10,14 @@ FT_LIB	=	$(FT_PATH)/$(FT_FILE)
 
 MLX_PATH	=	./minilibx-linux
 MLX_FILE	=	libmlx.a
-MLX_FLAGS   =   -lX11 -lXext -fPIE
+MLX_FLAGS   =   -lmlx -lX11 -lXext 
 
 
 
 
 # Base compiled files
 SRC_FOLDER	=    src/
-SRC_FILES	=    so_long.c init_map.c check_map.c errors.c flood_fill.c
+SRC_FILES	=    so_long.c init_map.c check_map.c errors.c flood_fill.c moves.c
 OBJS        =    $(SRC_FILES:%.c=$(SRC_FOLDER)%.o)
 
 
@@ -30,12 +30,12 @@ YELLOW        =    \033[0;33m
 # Compile part
 $(SRC_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@echo "$(YELLOW)- Compiling $<$(DEFAULT)"
-	@$(CC) $(FLAGS) -I$(SRC_FOLDER) -I$(FT_PATH) -I/usr/include -I$(MLX_PATH) -c $< -o $@
+	@$(CC) $(FLAGS) -I$(SRC_FOLDER) -I$(FT_PATH) -I/usr/include -I$(MLX_PATH) -c $< -o $@ 
 
 $(NAME):     $(OBJS)
 	@make -C $(FT_PATH) --no-print-directory -s
 	@make -C $(MLX_PATH) --no-print-directory -s
-	@$(CC) $(FLAGS) $(OBJS) $(FT_LIB) -L$(MLX_PATH) -lmlx $(MLX_FLAGS) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) $(FT_LIB) -L$(MLX_PATH)  $(MLX_FLAGS) -o $(NAME) 
 	@echo "$(GREEN)♫ $(NAME) compiled successfully! ♫$(DEFAULT)"
 
 # Mandatory rules

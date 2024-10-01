@@ -36,32 +36,11 @@ void draw_map(t_map *game)
         y += game->pixel;
     }
 }
-void move_player(t_map *game, int new_x, int new_y)
-{
-	if (game->map[new_y][new_x] == '0' || game->map[new_y][new_x] == 'C')
-	{
-		if (game->map[new_y][new_x] == 'C')
-			game->collect--;
-		game->map[game->player_y][game->player_x] = '0';
-		game->player_x = new_x;
-		game->player_y = new_y;
-		game->map[game->player_y][game->player_x] = 'P';
-		game->move++;
-	}
-	else if (game->map[new_y][new_x] == 'E' && game->collect == 0)
-	{
-		game->map[game->player_y][game->player_x] = '0';
-		game->player_x = new_x;
-		game->player_y = new_y;
-		game->map[game->player_y][game->player_x] = 'P';
-		game->move++;
-		ft_printf(GREEN "You won! Moves: %d\n" RESET, game->move);
-		close_game(game);
-	}
-}
 
-void init_game(t_map *game)
+void init_img(t_map *game)
 {
+	//printf("Initializing game...\n");
+	ft_bzero(&(game->img), sizeof(t_img));
 	game->img.mlx_ptr = mlx_init();
 	if (!game->img.mlx_ptr)
 		error(game, "Error initializing mlx");
@@ -85,6 +64,7 @@ void init_game(t_map *game)
 		error(game, "Error loading exit image");
 	draw_map(game);
 }
+
 void check_map(t_map *game, char *file)
 {
     check_file_extension(game, file);
@@ -94,27 +74,7 @@ void check_map(t_map *game, char *file)
     check_map_border(game);
 }
 
-int	key_hook(int keycode, t_map *game)
-{
-	int new_x;
-	int new_y;
 
-	new_x = game->player_x;
-	new_y = game->player_y;
-	if (keycode == 53)
-		close_game(game);
-	else if (keycode == 13)
-		new_y -= 1;
-	else if (keycode == 1)
-		new_y += 1;
-	else if (keycode == 0)
-		new_x -= 1;
-	else if (keycode == 2)
-		new_x += 1;
-	if (new_x >= 0 && new_x < game->width && new_y >= 0 && new_y < game->height)
-		move_player(game, new_x, new_y);
-	return (0);
-}
 
 int	main(int argc, char **argv)
 {
@@ -128,7 +88,7 @@ int	main(int argc, char **argv)
 	init_map(&game, argv[1]);
 	check_map(&game, argv[1]);
 	start_flood_fill(&game);
-	init_game(&game);
+	init_img(&game);
 	mlx_hook(game.img.win_ptr, 2, 1L << 0, key_hook, &game);
 	mlx_hook(game.img.win_ptr, 17, 1L << 17, close_game, &game);
 	mlx_loop(game.img.mlx_ptr);

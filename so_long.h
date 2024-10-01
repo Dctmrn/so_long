@@ -71,8 +71,7 @@ void free_mlx_img(t_img *img);
 int close_game(t_map *game);
 void close_display(t_map *game);
 
-
-void init_game(t_map *game);
+void init_img(t_map *game);
 void draw_map(t_map *game);
 void draw_elements(t_map *game, int x, int y);
 
