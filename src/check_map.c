@@ -36,7 +36,7 @@ void	check_10pec(t_map *game)
 	check_pec(game);
 }
 
-void	check_pec(t_map *game)
+void	check_pec(t_map *game) //playerExitCollect reatchable???
 {
 	int	i;
 	int	j;

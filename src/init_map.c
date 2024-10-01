@@ -29,6 +29,7 @@ int	init_map(t_map *game, char *file)
 	char	*line;
 	int		i;
 
+	i = 0;
 	ft_bzero(game, sizeof(t_map));
 	game->pixel = 128;
 	fd = open(file, O_RDONLY);

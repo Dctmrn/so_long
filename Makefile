@@ -35,7 +35,7 @@ $(SRC_FOLDER)%.o: $(SRC_FOLDER)%.c
 $(NAME):     $(OBJS)
 	@make -C $(FT_PATH) --no-print-directory -s
 	@make -C $(MLX_PATH) --no-print-directory -s
-	@$(CC) $(FLAGS) $(OBJS) $(FT_LIB) -L$(MLX_PATH)  $(MLX_FLAGS) -o $(NAME) 
+	@$(CC) $(FLAGS) $(OBJS) $(FT_LIB) -L$(MLX_PATH) -lmlx $(MLX_FLAGS) -o $(NAME) 
 	@echo "$(GREEN)♫ $(NAME) compiled successfully! ♫$(DEFAULT)"
 
 # Mandatory rules
