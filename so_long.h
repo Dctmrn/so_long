@@ -45,6 +45,8 @@ typedef struct s_map
 	int		flood_collect;
 	int		flood_exit;
 	int		flood_player;
+	int		exit_x;
+	int		exit_y;
 	t_img	img;
 
 }				t_map;

@@ -41,55 +41,28 @@ void	draw_map(t_map *game)
 	}
 }
 
+void	load_image(t_map *game, void **img_ptr, char *path)
+{
+	*img_ptr = mlx_xpm_file_to_image(game->img.mlx_ptr, path,
+			&game->pixel, &game->pixel);
+	if (!(*img_ptr))
+		error(game, "Error loading image");
+}
+
 void	init_img(t_map *game)
 {
-	//printf("Initializing game...\n");
 	ft_bzero(&(game->img), sizeof(t_img));
 	game->img.mlx_ptr = mlx_init();
 	if (!game->img.mlx_ptr)
 		error(game, "Error initializing mlx");
-	game->img.win_ptr = mlx_new_window(game->img.mlx_ptr, game->width * game->pixel, game->height * game->pixel, "so_long");
+	game->img.win_ptr = mlx_new_window(game->img.mlx_ptr,
+			game->width * game->pixel, game->height * game->pixel, "so_long");
 	if (!game->img.win_ptr)
 		error(game, "Error creating window");
-	game->img.player_img = mlx_xpm_file_to_image(game->img.mlx_ptr, "./img/hp.xpm", &game->pixel, &game->pixel);
-	if (!game->img.player_img)
-		error(game, "Error loading player image");
-	game->img.wall_img = mlx_xpm_file_to_image(game->img.mlx_ptr, "./img/nuage.xpm", &game->pixel, &game->pixel);
-	if (!game->img.wall_img)
-		error(game, "Error loading wall image");
-	game->img.floor_img = mlx_xpm_file_to_image(game->img.mlx_ptr, "./img/ciel.xpm", &game->pixel, &game->pixel);
-	if (!game->img.floor_img)
-		error(game, "Error loading floor image");
-	game->img.collect_img = mlx_xpm_file_to_image(game->img.mlx_ptr, "./img/felix.xpm", &game->pixel, &game->pixel);
-	if (!game->img.collect_img)
-		error(game, "Error loading collectible image");
-	game->img.exit_img = mlx_xpm_file_to_image(game->img.mlx_ptr, "./img/vif.xpm", &game->pixel, &game->pixel);
-	if (!game->img.exit_img)
-		error(game, "Error loading exit image");
+	load_image(game, (void **)&game->img.player_img, "./img/hp.xpm");
+	load_image(game, (void **)&game->img.wall_img, "./img/nuage.xpm");
+	load_image(game, (void **)&game->img.floor_img, "./img/ciel.xpm");
+	load_image(game, (void **)&game->img.collect_img, "./img/felix.xpm");
+	load_image(game, (void **)&game->img.exit_img, "./img/vif.xpm");
 	draw_map(game);
 }
-// void	load_image(t_map *game, void **img_ptr, char *path)
-// {
-// 	*img_ptr = mlx_xpm_file_to_image(game->img.mlx_ptr, path,
-// 			&game->pixel, &game->pixel);
-// 	if (!(*img_ptr))
-// 		error(game, "Error loading image");
-// }
-
-// void	init_img(t_map *game)
-// {
-// 	ft_bzero(&(game->img), sizeof(t_img));
-// 	game->img.mlx_ptr = mlx_init();
-// 	if (!game->img.mlx_ptr)
-// 		error(game, "Error initializing mlx");
-// 	game->img.win_ptr = mlx_new_window(game->img.mlx_ptr,
-// 			game->width * game->pixel, game->height * game->pixel, "so_long");
-// 	if (!game->img.win_ptr)
-// 		error(game, "Error creating window");
-// 	load_image(game, (void **)&game->img.player_img, "./img/hp.xpm");
-// 	load_image(game, (void **)&game->img.wall_img, "./img/nuage.xpm");
-// 	load_image(game, (void **)&game->img.floor_img, "./img/ciel.xpm");
-// 	load_image(game, (void **)&game->img.collect_img, "./img/felix.xpm");
-// 	load_image(game, (void **)&game->img.exit_img, "./img/vif.xpm");
-// 	draw_map(game);
-// }

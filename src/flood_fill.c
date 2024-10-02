@@ -4,15 +4,26 @@ void	flood_fill(t_map *game, int x, int y)
 {
 	if (x < 0 || y < 0 || x >= game->width || y >= game->height)
 		return ;
-	if (game->map[y][x] == '1' || game->map[y][x] == 'V')
+	if (game->map[y][x] == '1' || game->map[y][x] == 'e' || game->map[y][x] == 'o' || game->map[y][x] == 'p')
 		return ;
 	if (game->map[y][x] == 'C')
+	{
+		game->map[y][x] = 'c';
 		game->flood_collect++;
+	}
 	if (game->map[y][x] == 'E')
+	{
 		game->flood_exit++;
+		game->map[y][x] = 'e';
+	}	
 	if (game->map[y][x] == 'P')
+	{
 		game->flood_player = 1;
-	game->map[y][x] = 'V';
+		game->map[y][x] = 'p';
+	}
+	if (game->map[y][x] == '0')
+		game->map[y][x] = 'o';
+
 	flood_fill(game, x + 1, y);
 	flood_fill(game, x - 1, y);
 	flood_fill(game, x, y + 1);
@@ -41,8 +52,19 @@ void	restore_map(t_map *game)
 		j = 0;
 		while (j < game->width)
 		{
-			if (game->map[i][j] == 'V')
+			if (game->map[i][j] == 'o')
 				game->map[i][j] = '0';
+			if (game->map[i][j] == 'p')
+				game->map[i][j] = 'P';
+			if (game->map[i][j] == 'c')
+				game->map[i][j] = 'C';
+			if (game->map[i][j] == 'e')
+			{
+				game->map[i][j] = 'E';
+				game->exit_x = j;
+				game->exit_y = i;
+				printf("Coordonnées de la sortie : exit_x = %d, exit_y = %d\n", game->exit_x, game->exit_y);
+			}
 			j++;
 		}
 		i++;
