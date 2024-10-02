@@ -12,11 +12,10 @@
 
 # define GREEN "\033[0;32m"
 # define RED "\033[1;31m"
-# define GREY "\033[0;90m"
-# define CYAN "\033[1;96m"
 # define RESET "\033[0m"
-# define YELLOW "\033[0;33m"
 # define PURPLE "\033[0;35m"
+# define CYAN "\033[1;96m"
+# define ITALIC "\033[3m"
 
 typedef struct s_img
 {
@@ -72,6 +71,9 @@ void	draw_elements(t_map *game, int x, int y);
 
 int		key_hook(int keycode, t_map *game);
 void	move_player(t_map *game, int new_x, int new_y);
+void	handle_move(t_map *game, int new_x, int new_y);
+void	handle_collect(t_map *game, int new_x, int new_y);
+void	handle_win(t_map *game);
 
 void	start_flood_fill(t_map *game);
 void	flood_fill(t_map *game, int x, int y);

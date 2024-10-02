@@ -6,7 +6,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_printf(RED " Argument error : try, &s <map_dir>/<map_file>\n"
+		ft_printf(RED "\nARGUMENT ERROR (try -> &s <map_dir>/<map_file>)\n\n"
 			RESET, argv[0]);
 		return (0);
 	}

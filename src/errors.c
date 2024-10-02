@@ -64,7 +64,7 @@ void	close_display(t_map *game)
 
 void	error(t_map *game, const char *message)
 {
-	ft_printf(RED "Error: %s\n"RESET, message);
+	ft_printf(RED "\nError : %s\n\n"RESET, message);
 	free_mlx_img(&game->img);
 	close_game(game);
 	exit(EXIT_FAILURE);

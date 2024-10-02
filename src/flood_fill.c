@@ -4,7 +4,8 @@ void	flood_fill(t_map *game, int x, int y)
 {
 	if (x < 0 || y < 0 || x >= game->width || y >= game->height)
 		return ;
-	if (game->map[y][x] == '1' || game->map[y][x] == 'e' || game->map[y][x] == 'o' || game->map[y][x] == 'p')
+	if (game->map[y][x] == '1' || game->map[y][x] == 'e' ||
+		game->map[y][x] == 'o')
 		return ;
 	if (game->map[y][x] == 'C')
 	{
@@ -15,15 +16,9 @@ void	flood_fill(t_map *game, int x, int y)
 	{
 		game->flood_exit++;
 		game->map[y][x] = 'e';
-	}	
-	if (game->map[y][x] == 'P')
-	{
-		game->flood_player = 1;
-		game->map[y][x] = 'p';
 	}
 	if (game->map[y][x] == '0')
 		game->map[y][x] = 'o';
-
 	flood_fill(game, x + 1, y);
 	flood_fill(game, x - 1, y);
 	flood_fill(game, x, y + 1);
@@ -33,11 +28,9 @@ void	flood_fill(t_map *game, int x, int y)
 void	flood_check_ec(t_map *game)
 {
 	if (game->flood_collect != game->collect)
-		error(game, "Collectibles are not reachable");
+		error(game, "Collectible not reachable.");
 	if (game->flood_exit == 0)
-		error(game, "Exit is not reachable");
-	if (game->flood_player == 0)
-		error(game, "Player is not reachable");
+		error(game, "Exit not reachable.");
 	restore_map(game);
 }
 
@@ -63,7 +56,6 @@ void	restore_map(t_map *game)
 				game->map[i][j] = 'E';
 				game->exit_x = j;
 				game->exit_y = i;
-				printf("Coordonnées de la sortie : exit_x = %d, exit_y = %d\n", game->exit_x, game->exit_y);
 			}
 			j++;
 		}
@@ -75,27 +67,27 @@ void	start_flood_fill(t_map *game)
 {
 	int	i;
 	int	j;
-	int	found_player;
 
-	found_player = 0;
 	i = 0;
-	while (i < game->height && !found_player)
+	while (i < game->height)
 	{
 		j = 0;
-		while (j < game->width && !found_player)
+		while (j < game->width)
 		{
 			if (game->map[i][j] == 'P')
 			{
 				game->player_x = j;
 				game->player_y = i;
-				found_player = 1;
 			}
 			j++;
 		}
 		i++;
 	}
-	if (!found_player)
-		error(game, "Player position not found");
+	if (game->map[game->player_y - 1][game->player_x] == '1' &&
+			game->map[game->player_y + 1][game->player_x] == '1' &&
+			game->map[game->player_y][game->player_x - 1] == '1' &&
+			game->map[game->player_y][game->player_x + 1] == '1')
+		error(game, "Player is surrounded by walls and cannot move.");
 	flood_fill(game, game->player_x, game->player_y);
 	flood_check_ec(game);
 }
