@@ -1,13 +1,15 @@
 #include "../so_long.h"
 
-void	check_file(t_map *game, char *file)
+void	check_file(char *file)
 {
-	int	len;
+	int		len;
 
 	len = ft_strlen(file);
-	if (len < 4 || !ft_strnstr(file + len - 4, ".ber", 4))
-		error(game, "Invalid map file extension. (it must be .ber)");
-	check_10pec(game);
+	if (len < 4 || ft_strncmp(file + len - 4, ".ber", 4) != 0)
+	{
+		ft_printf( RED "\nInvalid map. (It must be a .ber file)\n\n" RESET);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	check_10pec(t_map *game)
@@ -65,13 +67,17 @@ void	check_height_width(t_map *game)
 {
 	int	i;
 	int	j;
-
+	ft_printf("Map dimensions - Width: %d, Height: %d\n", game->width, game->height);
 	i = 0;
+	if (!game->map || !game->map[0])
+        error(game, "Map is empty or not initialized.");
+
 	while (game->map[i])
 	{
 		j = 0;
-		while (game->map[i][j])
+		while (game->map[i][j] != '\0')
 			j++;
+		ft_printf("Line %d has %d columns\n", i, j);
 		if (i == 0)
 			game->width = j;
 		else if (j != game->width)
@@ -79,6 +85,7 @@ void	check_height_width(t_map *game)
 		i++;
 	}
 	game->height = i;
+	ft_printf("Map dimensions - Width: %d, Height: %d\n", game->width, game->height);
 	check_map_border(game);
 }
 

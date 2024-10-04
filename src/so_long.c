@@ -6,12 +6,13 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_printf(RED "\nARGUMENT ERROR (try -> &s <map_dir>/<map_file>)\n\n"
+		ft_printf(RED "\nARGUMENT ERROR (try -> %s <map_dir>/<map_file>)\n\n"
 			RESET, argv[0]);
 		return (0);
 	}
+	check_file(argv[1]);
 	init_map(&game, argv[1]);
-	check_file(&game, argv[1]);
+	check_10pec(&game);
 	start_flood_fill(&game);
 	init_img(&game);
 	mlx_hook(game.img.win_ptr, 2, 1L << 0, key_hook, &game);

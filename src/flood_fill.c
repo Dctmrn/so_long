@@ -2,8 +2,19 @@
 
 void	flood_fill(t_map *game, int x, int y)
 {
-	if (x < 0 || y < 0 || x >= game->width || y >= game->height)
-		return ;
+	
+
+    if (x < 0 || y < 0 || x >= game->width || y >= game->height)
+    {
+        ft_printf("Out of bounds: x=%d, y=%d\n", x, y);
+        return ;
+    }
+    if (game->map[y] == NULL || game->map[y][x] == '\0')
+    {
+        ft_printf("Invalid access at position: x=%d, y=%d\n", x, y);
+        return ;
+    }
+
 	if (game->map[y][x] == '1' || game->map[y][x] == 'e' ||
 		game->map[y][x] == 'o')
 		return ;
@@ -38,7 +49,6 @@ void	restore_map(t_map *game)
 {
 	int	i;
 	int	j;
-
 	i = 0;
 	while (i < game->height)
 	{
@@ -88,6 +98,10 @@ void	start_flood_fill(t_map *game)
 			game->map[game->player_y][game->player_x - 1] == '1' &&
 			game->map[game->player_y][game->player_x + 1] == '1')
 		error(game, "Player is surrounded by walls and cannot move.");
+	// for (int i = 0; i < game->height; i++)
+	// {
+	// 	ft_printf("%s\n", game->map[i]);
+	// }
 	flood_fill(game, game->player_x, game->player_y);
 	flood_check_ec(game);
 }

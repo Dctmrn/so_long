@@ -13,8 +13,6 @@ MLX_FILE	=	libmlx.a
 MLX_FLAGS   =   -lmlx -lX11 -lXext 
 
 
-
-
 # Base compiled files
 SRC_FOLDER	=    src/
 SRC_FILES	=    so_long.c init_map.c check_map.c errors.c flood_fill.c img_draw.c moves.c

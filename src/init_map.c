@@ -16,11 +16,17 @@ void	add_line_to_map(t_map *game, char *line, int i)
 	new_map = (char **)ft_realloc(game->map, sizeof(char *) * (i + 1),
 			sizeof(char *) * (i + 2));
 	if (!new_map)
+	{
+		free(line);
 		error(game, "Allocating memory failed.");
+	}
 	game->map = new_map;
 	game->map[i] = ft_strdup(line);
 	if (!game->map[i])
+	{
+		free(line);
 		error(game, "Memory allocation for map line failed.");
+	}
 }
 
 int	init_map(t_map *game, char *file)
@@ -49,5 +55,14 @@ int	init_map(t_map *game, char *file)
 	}
 	game->map[i] = NULL;
 	close(fd);
+	    ft_printf("Final map state:\n");
+    for (int k = 0; k < i; k++)
+    {
+        if (game->map[k])
+            ft_printf("%s\n", game->map[k]);
+        else
+            ft_printf("[NULL]\n");
+    }
 	return (1);
 }
+
