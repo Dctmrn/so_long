@@ -1,39 +1,22 @@
 #include "../so_long.h"
 
-void	flood_fill(t_map *game, int x, int y)
+void	flood_fill(t_map *game, char **map, int x, int y)
 {
-	
-
-    if (x < 0 || y < 0 || x >= game->width || y >= game->height)
-    {
-        ft_printf("Out of bounds: x=%d, y=%d\n", x, y);
-        return ;
-    }
-    if (game->map[y] == NULL || game->map[y][x] == '\0')
-    {
-        ft_printf("Invalid access at position: x=%d, y=%d\n", x, y);
-        return ;
-    }
-
-	if (game->map[y][x] == '1' || game->map[y][x] == 'e' ||
-		game->map[y][x] == 'o')
+	if (map[y][x] == '1')
 		return ;
-	if (game->map[y][x] == 'C')
-	{
-		game->map[y][x] = 'c';
-		game->flood_collect++;
-	}
-	if (game->map[y][x] == 'E')
+	if (map[y][x] == 'E')
 	{
 		game->flood_exit++;
-		game->map[y][x] = 'e';
+		game->exit_x = x;
+		game->exit_y = y;
 	}
-	if (game->map[y][x] == '0')
-		game->map[y][x] = 'o';
-	flood_fill(game, x + 1, y);
-	flood_fill(game, x - 1, y);
-	flood_fill(game, x, y + 1);
-	flood_fill(game, x, y - 1);
+	else if (map[y][x] == 'C')
+		game->flood_collect++;
+	map[y][x] = '1';
+	flood_fill(game, map, x + 1, y);
+	flood_fill(game, map, x - 1, y);
+	flood_fill(game, map, x, y + 1);
+	flood_fill(game, map, x, y - 1);
 }
 
 void	flood_check_ec(t_map *game)
@@ -42,41 +25,46 @@ void	flood_check_ec(t_map *game)
 		error(game, "Collectible not reachable.");
 	if (game->flood_exit == 0)
 		error(game, "Exit not reachable.");
-	restore_map(game);
 }
 
-void	restore_map(t_map *game)
+char	**ft_cpy(char **cpy, int height)
 {
-	int	i;
-	int	j;
+	char	**new;
+	int		i;
+
 	i = 0;
-	while (i < game->height)
+	new = malloc(sizeof(char *) * (height + 1));
+	if (!new)
+		return (NULL);
+	while (i < height)
 	{
-		j = 0;
-		while (j < game->width)
-		{
-			if (game->map[i][j] == 'o')
-				game->map[i][j] = '0';
-			if (game->map[i][j] == 'p')
-				game->map[i][j] = 'P';
-			if (game->map[i][j] == 'c')
-				game->map[i][j] = 'C';
-			if (game->map[i][j] == 'e')
-			{
-				game->map[i][j] = 'E';
-				game->exit_x = j;
-				game->exit_y = i;
-			}
-			j++;
-		}
+		new[i] = ft_strdup(cpy[i]);
+		if (!new[i])
+			free_map_cpy(new, height);
 		i++;
 	}
+	new[i] = NULL;
+	return (new);
+}
+
+void	free_map_cpy(char **cpy, int height)
+{
+	int	i;
+
+	i = 0;
+	while (i < height)
+	{
+		free(cpy[i]);
+		i++;
+	}
+	free(cpy);
 }
 
 void	start_flood_fill(t_map *game)
 {
-	int	i;
-	int	j;
+	char	**map_cpy;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (i < game->height)
@@ -88,20 +76,14 @@ void	start_flood_fill(t_map *game)
 			{
 				game->player_x = j;
 				game->player_y = i;
+				break ;
 			}
 			j++;
 		}
 		i++;
 	}
-	if (game->map[game->player_y - 1][game->player_x] == '1' &&
-			game->map[game->player_y + 1][game->player_x] == '1' &&
-			game->map[game->player_y][game->player_x - 1] == '1' &&
-			game->map[game->player_y][game->player_x + 1] == '1')
-		error(game, "Player is surrounded by walls and cannot move.");
-	// for (int i = 0; i < game->height; i++)
-	// {
-	// 	ft_printf("%s\n", game->map[i]);
-	// }
-	flood_fill(game, game->player_x, game->player_y);
+	map_cpy = ft_cpy(game->map, game->height);
+	flood_fill(game, map_cpy, game->player_x, game->player_y);
+	free_map_cpy(map_cpy, game->height);
 	flood_check_ec(game);
 }

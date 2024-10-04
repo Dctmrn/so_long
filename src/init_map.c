@@ -55,14 +55,5 @@ int	init_map(t_map *game, char *file)
 	}
 	game->map[i] = NULL;
 	close(fd);
-	    ft_printf("Final map state:\n");
-    for (int k = 0; k < i; k++)
-    {
-        if (game->map[k])
-            ft_printf("%s\n", game->map[k]);
-        else
-            ft_printf("[NULL]\n");
-    }
 	return (1);
 }
-

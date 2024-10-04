@@ -7,7 +7,8 @@ void	check_file(char *file)
 	len = ft_strlen(file);
 	if (len < 4 || ft_strncmp(file + len - 4, ".ber", 4) != 0)
 	{
-		ft_printf( RED "\nInvalid map. (It must be a .ber file)\n\n" RESET);
+		ft_printf(RED "\nInvalid map. (It must be a .ber file)\n\n"
+			RESET);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -67,17 +68,15 @@ void	check_height_width(t_map *game)
 {
 	int	i;
 	int	j;
-	ft_printf("Map dimensions - Width: %d, Height: %d\n", game->width, game->height);
+
 	i = 0;
 	if (!game->map || !game->map[0])
-        error(game, "Map is empty or not initialized.");
-
+		error(game, "Map is empty or not initialized.");
 	while (game->map[i])
 	{
 		j = 0;
 		while (game->map[i][j] != '\0')
 			j++;
-		ft_printf("Line %d has %d columns\n", i, j);
 		if (i == 0)
 			game->width = j;
 		else if (j != game->width)
@@ -85,7 +84,6 @@ void	check_height_width(t_map *game)
 		i++;
 	}
 	game->height = i;
-	ft_printf("Map dimensions - Width: %d, Height: %d\n", game->width, game->height);
 	check_map_border(game);
 }
 

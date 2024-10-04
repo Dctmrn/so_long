@@ -76,8 +76,9 @@ void	handle_collect(t_map *game, int new_x, int new_y);
 void	handle_win(t_map *game);
 
 void	start_flood_fill(t_map *game);
-void	flood_fill(t_map *game, int x, int y);
+void	flood_fill(t_map *game, char **map, int x, int y);
+char	**ft_cpy(char **cpy, int height);
+void	free_map_cpy(char **cpy, int height);
 void	flood_check_ec(t_map *game);
-void	restore_map(t_map *game);
 
 #endif
