@@ -46,11 +46,11 @@ void	move_player(t_map *game, int new_x, int new_y)
 	else if (game->map[new_y][new_x] == 'E' && game->collect > 0)
 		handle_collect(game, new_x, new_y);
 	else if (game->map[new_y][new_x] == '0' || game->map[new_y][new_x] == 'C')
+	{
 		handle_move(game, new_x, new_y);
-	else if (game->map[new_y][new_x] == '1')
-		return ;
-	draw_map(game);
-	ft_printf(PURPLE ITALIC "Moves : %d\n" RESET, game->move);
+		draw_map(game);
+		ft_printf(PURPLE ITALIC "Moves : %d\n" RESET, game->move);
+	}
 }
 
 //printf("Keycode pressed: %d\n", keycode);
