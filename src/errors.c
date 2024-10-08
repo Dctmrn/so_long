@@ -4,14 +4,17 @@ void	free_map(t_map *game)
 {
 	int	i;
 
+	if (game == NULL || game->map == NULL)
+		return ;
 	i = 0;
-	while (game->map[i])
+	while (i < game->height && game->map && game->map[i])
 	{
 		free(game->map[i]);
 		game->map[i] = NULL;
 		i++;
 	}
 	free(game->map);
+	game->map = NULL; 
 }
 
 void	free_mlx_img(t_img *img)
@@ -45,6 +48,8 @@ void	free_mlx_img(t_img *img)
 
 int	close_game(t_map *game)
 {
+	if (game == NULL)
+        return -1;
 	if (game->img.mlx_ptr != NULL)
 		mlx_destroy_window(game->img.mlx_ptr, game->img.win_ptr);
 	free_mlx_img(&game->img);

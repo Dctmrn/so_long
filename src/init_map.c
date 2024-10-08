@@ -1,12 +1,13 @@
 #include "../so_long.h"
 
-void	empty_line(t_map *game, char *line)
+void	empty_line(t_map *game, char *line, int fd)
 {
 	if (line[0] == '\0' || ft_strcmp(line, "\n") == 0)
 	{
 		free(line);
+		close (fd);
 		error(game, "Empty line found in map.");
-	}
+	}	
 }
 
 void	add_line_to_map(t_map *game, char *line, int i)
@@ -36,8 +37,7 @@ int	init_map(t_map *game, char *file)
 	int		i;
 
 	i = 0;
-	ft_bzero(game, sizeof(t_map));
-	game->pixel = 128;
+	(ft_bzero(game, sizeof(t_map)), game->pixel = 128);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error(game, "Opening map file.");
@@ -45,15 +45,17 @@ int	init_map(t_map *game, char *file)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		empty_line(game, line);
+		game->height = i;
+		empty_line(game, line, fd);
 		if (line && line[0] != '\0' && line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		add_line_to_map(game, line, i);
-		free(line);
+		(add_line_to_map(game, line, i), free(line));
 		i++;
 		line = get_next_line(fd);
 	}
-	game->map[i] = NULL;
-	close(fd);
-	return (1);
+	if (i > 0)
+		game->map[i] = NULL;
+	else
+		(close(fd), error(game, "Map empty."));
+	return (close(fd), 1);
 }

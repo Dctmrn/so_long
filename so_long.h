@@ -51,7 +51,7 @@ typedef struct s_map
 }				t_map;
 
 int		init_map(t_map *game, char *file);
-void	empty_line(t_map *game, char *line);
+void	empty_line(t_map *game, char *line, int fd);
 
 void	check_file(char *file);
 void	check_10pec(t_map *game);
