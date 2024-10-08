@@ -52,6 +52,7 @@ typedef struct s_map
 
 int		init_map(t_map *game, char *file);
 void	empty_line(t_map *game, char *line, int fd);
+void	map_empty(t_map *game, int fd, int i);
 
 void	check_file(char *file);
 void	check_10pec(t_map *game);
@@ -71,8 +72,7 @@ void	draw_elements(t_map *game, int x, int y);
 
 int		key_hook(int keycode, t_map *game);
 void	move_player(t_map *game, int new_x, int new_y);
-void	handle_move(t_map *game, int new_x, int new_y);
-void	handle_collect(t_map *game, int new_x, int new_y);
+void	handle_exit(t_map *game, int new_x, int new_y);
 void	handle_win(t_map *game);
 
 void	start_flood_fill(t_map *game);

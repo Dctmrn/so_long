@@ -2,12 +2,26 @@
 
 void	empty_line(t_map *game, char *line, int fd)
 {
+	int	i;
+
+	i = 0;
 	if (line[0] == '\0' || ft_strcmp(line, "\n") == 0)
 	{
 		free(line);
-		close (fd);
-		error(game, "Empty line found in map.");
-	}	
+		close(fd);
+		ft_printf(RED "\nError: Empty line found in map.\n\n" RESET);
+		if (game->map)
+		{
+			while (i < game->height)
+			{
+				free(game->map[i]);
+				i++;
+			}
+			free(game->map);
+			game->map = NULL;
+		}
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	add_line_to_map(t_map *game, char *line, int i)
@@ -28,6 +42,14 @@ void	add_line_to_map(t_map *game, char *line, int i)
 		free(line);
 		error(game, "Memory allocation for map line failed.");
 	}
+}
+
+void	map_empty(t_map *game, int fd, int i)
+{
+	if (i > 0)
+		game->map[i] = NULL;
+	else
+		(close(fd), error(game, "Map empty."));
 }
 
 int	init_map(t_map *game, char *file)
@@ -53,9 +75,6 @@ int	init_map(t_map *game, char *file)
 		i++;
 		line = get_next_line(fd);
 	}
-	if (i > 0)
-		game->map[i] = NULL;
-	else
-		(close(fd), error(game, "Map empty."));
+	map_empty(game, fd, i);
 	return (close(fd), 1);
 }

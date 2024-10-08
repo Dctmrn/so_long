@@ -5,33 +5,27 @@ void	handle_win(t_map *game)
 	game->move++;
 	ft_printf(GREEN "\n");
 	ft_printf(GREEN "  🎊 🏆 🎊 🏆 🎊 🏆 🎊\n");
+	ft_printf(GREEN "\n");
 	ft_printf(GREEN "   🌟   YOU WON!  🌟\n");
+	ft_printf(GREEN "\n");
 	ft_printf(GREEN "  🎊 🏆 🎊 🏆 🎊 🏆 🎊\n" RESET);
 	ft_printf(CYAN ITALIC"\n   ~ With %d moves ~ \n\n" RESET, game->move);
 	close_game(game);
 }
 
-void	handle_collect(t_map *game, int new_x, int new_y)
+void	handle_exit(t_map *game, int new_x, int new_y)
 {
-	ft_printf(RED "\n ~ You can't exit yet! Collect all items first ~\n\n"
-		RESET);
-		game->map[game->player_y][game->player_x] = '0';
-	game->player_x = new_x;
-	game->player_y = new_y;
-	game->map[game->player_y][game->player_x] = 'P';
-	game->move++;
-}
-
-void	handle_move(t_map *game, int new_x, int new_y)
-{
-	if (game->map[new_y][new_x] == 'C')
-		game->collect--;
+	if (game->map[game->player_y][game->player_x] == 'E')
+		game->map[game->player_y][game->player_x] = 'E';
 	else
 		game->map[game->player_y][game->player_x] = '0';
 	game->player_x = new_x;
 	game->player_y = new_y;
 	game->map[game->player_y][game->player_x] = 'P';
 	game->move++;
+	ft_printf(RED ITALIC"\nMove : %d ~ You can't exit ! "
+		"Collect all items first ~\n\n", game->move, RESET);
+	draw_map(game);
 }
 
 void	move_player(t_map *game, int new_x, int new_y)
@@ -39,30 +33,21 @@ void	move_player(t_map *game, int new_x, int new_y)
 	if (game->map[new_y][new_x] == 'E' && game->collect == 0)
 		handle_win(game);
 	else if (game->map[new_y][new_x] == 'E' && game->collect > 0)
+		handle_exit(game, new_x, new_y);
+	else if (game->map[new_y][new_x] == '0' || game->map[new_y][new_x] == 'C')
 	{
-		// Remplacer l'exit par un autre caractère (par exemple 'X')
-		game->map[game->player_y][game->player_x] = '0'; // Libérer l'ancienne position du joueur
-		game->map[new_y][new_x] = 'X'; // Remplacer l'exit par 'X'
+		if (game->map[new_y][new_x] == 'C')
+			game->collect--;
+		if (game->player_x == game->exit_x && game->player_y == game->exit_y)
+			game->map[game->player_y][game->player_x] = 'E';
+		else
+			game->map[game->player_y][game->player_x] = '0';
 		game->player_x = new_x;
 		game->player_y = new_y;
-		game->map[game->player_y][game->player_x] = 'P'; // Mettre à jour la position du joueur
-		ft_printf(RED "\n ~ You can't exit yet! Collect all items first ~\n\n" RESET);
+		game->map[game->player_y][game->player_x] = 'P';
 		game->move++;
-		draw_map(game); // Redessiner la carte pour mettre à jour l'affichage
-		ft_printf(PURPLE ITALIC "Moves : %d\n" RESET, game->move);
-	}
-else if (game->map[new_y][new_x] == '0')
-	{
-		handle_move(game, new_x, new_y);
-		draw_map(game); // Redessiner la carte
-		ft_printf(PURPLE ITALIC "Moves : %d\n" RESET, game->move);
-	}
-	else if (game->map[new_y][new_x] == 'C')
-	{
-		handle_move(game, new_x, new_y); // Gérer la collecte
-		game->map[game->player_y][game->player_x] = '0'; // Libérer l'ancienne position
-		draw_map(game); // Redessiner la carte
-		ft_printf(PURPLE ITALIC "Moves : %d\n" RESET, game->move);
+		draw_map(game);
+		ft_printf(PURPLE ITALIC "Move : %d\n" RESET, game->move);
 	}
 }
 
